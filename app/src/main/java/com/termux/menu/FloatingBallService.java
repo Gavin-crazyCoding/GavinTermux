@@ -840,42 +840,15 @@ public class FloatingBallService extends Service {
             case "language":
                 Toast.makeText(this, "语言切换功能暂未实现", Toast.LENGTH_SHORT).show();
                 break;
-            case "download_center":
-                hideMenu();
-                new DownloadCenterDialog(FloatingBallService.this).show();
-                break;
-            case "online_scripts":
-                hideMenu();
-                new OnlineScriptDialog(FloatingBallService.this).show();
-                break;
-            case "nmap":
-                hideMenu();
-                new NmapDialog(FloatingBallService.this).show();
-                break;
-            case "kali_tools":
-                hideMenu();
-                new KaliToolsDialog(FloatingBallService.this).show();
-                break;
-            case "sqlmap":
-                hideMenu();
-                new SqlmapDialog(FloatingBallService.this).show();
-                break;
-            case "metasploit":
-                hideMenu();
-                new MetasploitDialog(FloatingBallService.this).show();
-                break;
-            case "dirb":
-                hideMenu();
-                new DirbDialog(FloatingBallService.this).show();
-                break;
-            case "seeker":
-                hideMenu();
-                new SeekerDialog(FloatingBallService.this).show();
-                break;
-            case "camphish":
-                hideMenu();
-                new CamphishDialog(FloatingBallService.this).show();
-                break;
+            case "download_center": hideMenu(); safeShow(new DownloadCenterDialog(FloatingBallService.this)); break;
+            case "online_scripts": hideMenu(); safeShow(new OnlineScriptDialog(FloatingBallService.this)); break;
+            case "nmap": hideMenu(); safeShow(new NmapDialog(FloatingBallService.this)); break;
+            case "kali_tools": hideMenu(); safeShow(new KaliToolsDialog(FloatingBallService.this)); break;
+            case "sqlmap": hideMenu(); safeShow(new SqlmapDialog(FloatingBallService.this)); break;
+            case "metasploit": hideMenu(); safeShow(new MetasploitDialog(FloatingBallService.this)); break;
+            case "dirb": hideMenu(); safeShow(new DirbDialog(FloatingBallService.this)); break;
+            case "seeker": hideMenu(); safeShow(new SeekerDialog(FloatingBallService.this)); break;
+            case "camphish": hideMenu(); safeShow(new CamphishDialog(FloatingBallService.this)); break;
             case "create_c_project":
                 createAndOpenProject("c_project", "main.c",
                     "/* C Project - GavinFloat */\n" +
@@ -914,46 +887,16 @@ public class FloatingBallService extends Service {
                     "// Node.js Project - GavinFloat\n" +
                     "console.log(\"Hello, Termux!\");\n");
                 break;
-            case "api_config":
-                hideMenu();
-                new ApiConfigDialog(FloatingBallService.this).show();
-                break;
-            case "pkg_manager":
-                hideMenu();
-                new PackageManagerDialog(FloatingBallService.this).show();
-                break;
-            case "wifi_tools":
-                hideMenu();
-                new WiFiToolsDialog(FloatingBallService.this).show();
-                break;
-            case "process_manager":
-                hideMenu();
-                new ProcessManagerDialog(FloatingBallService.this).show();
-                break;
-            case "network_tools":
-                hideMenu();
-                new NetworkToolsDialog(FloatingBallService.this).show();
-                break;
-            case "quick_commands":
-                hideMenu();
-                new QuickCommandsDialog(FloatingBallService.this).show();
-                break;
-            case "adb_manager":
-                hideMenu();
-                new AdbManagerDialog(FloatingBallService.this).show();
-                break;
-            case "ai_chat":
-                hideMenu();
-                new AIChatDialog(FloatingBallService.this).show();
-                break;
-            case "git_manager":
-                hideMenu();
-                new GitManagerDialog(FloatingBallService.this).show();
-                break;
-            case "sys_dashboard":
-                hideMenu();
-                new SystemDashboardDialog(FloatingBallService.this).show();
-                break;
+            case "api_config": hideMenu(); safeShow(new ApiConfigDialog(FloatingBallService.this)); break;
+            case "pkg_manager": hideMenu(); safeShow(new PackageManagerDialog(FloatingBallService.this)); break;
+            case "wifi_tools": hideMenu(); safeShow(new WiFiToolsDialog(FloatingBallService.this)); break;
+            case "process_manager": hideMenu(); safeShow(new ProcessManagerDialog(FloatingBallService.this)); break;
+            case "network_tools": hideMenu(); safeShow(new NetworkToolsDialog(FloatingBallService.this)); break;
+            case "quick_commands": hideMenu(); safeShow(new QuickCommandsDialog(FloatingBallService.this)); break;
+            case "adb_manager": hideMenu(); safeShow(new AdbManagerDialog(FloatingBallService.this)); break;
+            case "ai_chat": hideMenu(); safeShow(new AIChatDialog(FloatingBallService.this)); break;
+            case "git_manager": hideMenu(); safeShow(new GitManagerDialog(FloatingBallService.this)); break;
+            case "sys_dashboard": hideMenu(); safeShow(new SystemDashboardDialog(FloatingBallService.this)); break;
             default:
                 Toast.makeText(this, "未知操作: " + action, Toast.LENGTH_SHORT).show();
                 break;
@@ -1226,6 +1169,13 @@ public class FloatingBallService extends Service {
             Toast.makeText(this, "已重置为默认菜单", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, "重置失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void safeShow(android.app.Dialog dialog) {
+        try { dialog.show(); } catch (Throwable t) {
+            Log.e(TAG, "Dialog crash: " + t.getMessage(), t);
+            Toast.makeText(this, "打开失败: " + t.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
