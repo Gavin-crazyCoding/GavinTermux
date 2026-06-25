@@ -897,6 +897,7 @@ public class FloatingBallService extends Service {
             case "ai_chat": hideMenu(); safeShow(new AIChatDialog(FloatingBallService.this)); break;
             case "git_manager": hideMenu(); safeShow(new GitManagerDialog(FloatingBallService.this)); break;
             case "sys_dashboard": hideMenu(); safeShow(new SystemDashboardDialog(FloatingBallService.this)); break;
+            case "install_kali": installKali(); break;
             default:
                 Toast.makeText(this, "未知操作: " + action, Toast.LENGTH_SHORT).show();
                 break;
@@ -1006,6 +1007,47 @@ public class FloatingBallService extends Service {
         // 应用到标题文字
         TextView title = panel.findViewById(R.id.header_title);
         if (title != null) title.setTextColor(accent);
+    }
+
+    /**
+     * 一键安装Kali — 从assets提取kali.sh到文件系统，全自动执行。
+     * 不需要用户手动输入，脚本自带交互式安装流程。
+     */
+    private void installKali() {
+        hideMenu();
+        Toast.makeText(this, "正在准备Kali安装脚本...", Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() { public void run() {
+            try {
+                // 从assets提取kali.sh
+                java.io.InputStream is = getAssets().open("kali/kali.sh");
+                java.io.File outFile = new java.io.File(FileUtils.TERMUX_HOME + "/kali.sh");
+                java.io.FileOutputStream fos = new java.io.FileOutputStream(outFile);
+                byte[] buf = new byte[8192]; int n;
+                while ((n = is.read(buf)) != -1) fos.write(buf, 0, n);
+                is.close(); fos.close();
+                // 提取nh.sh启动器
+                java.io.InputStream is2 = getAssets().open("kali/nh.sh");
+                java.io.File nhFile = new java.io.File(FileUtils.TERMUX_HOME + "/nh.sh");
+                java.io.FileOutputStream fos2 = new java.io.FileOutputStream(nhFile);
+                byte[] buf2 = new byte[8192]; int n2;
+                while ((n2 = is2.read(buf2)) != -1) fos2.write(buf2, 0, n2);
+                is2.close(); fos2.close();
+
+                // 自动执行安装
+                new android.os.Handler(getMainLooper()).post(new Runnable() { public void run() {
+                    mCmdHelper.sendCommandToTerminal(
+                        "cd ~ && chmod +x kali.sh && ./kali.sh");
+                    Toast.makeText(FloatingBallService.this,
+                        "Kali安装脚本已启动！\n请切换到Termux查看安装进度。\n安装约需1-5分钟，取决于网络速度。",
+                        Toast.LENGTH_LONG).show();
+                }});
+            } catch (final java.io.IOException e) {
+                new android.os.Handler(getMainLooper()).post(new Runnable() { public void run() {
+                    Toast.makeText(FloatingBallService.this,
+                        "安装失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }});
+            }
+        }}).start();
     }
 
     private void createAndOpenProject(String subdir, String mainFile, String content) {

@@ -72,7 +72,7 @@
 
     <!-- ====== 7. Kali Nethunter (id=10) ====== -->
     <group name="Kali Nethunter" id="10">
-        <item name="安装/重装" click="ztShell:cp $PREFIX/../assets/kali/kali.sh ~/kali.sh 2>/dev/null; cd ~ &amp;&amp; chmod +x kali.sh &amp;&amp; bash kali.sh" autoRunShell="true" dialogConfirm="true" dialogTitle="安装Kali" dialogMessage="将下载安装Kali Nethunter(约2GB)，需要稳定网络。继续？"/>
+        <item name="安装/重装" click="internal:install_kali"/>
         <item name="Kali安装状态" click="shell_output:if [ -d ~/kali-arm64 ]; then echo Kali已安装; du -sh ~/kali-arm64 2>/dev/null | head -1; echo ---; ls ~/kali-arm64/ 2>/dev/null | head -5; else echo Kali未安装，请使用 安装/重装; fi" autoRunShell="true"/>
         <item name="启动终端" click="ztShell:nethunter" autoRunShell="true"/>
         <item name="Root终端" click="ztShell:nethunter -r" autoRunShell="true"/>
