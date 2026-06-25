@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    
+    <!-- Face outline/background -->
+    <path
+        android:fillColor="#FFDCA4"
+        android:pathData="M312,400 L312,700 C312,850 412,950 512,950 C612,950 712,850 712,700 L712,400 Z"/>
+
+    <!-- Spiky Hair -->
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M250,450 L300,200 L400,350 L512,100 L624,350 L724,200 L774,450 L250,450 Z"/>
+        
+    <!-- Visor/Glasses -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M280,500 L744,500 L744,620 C744,650 720,670 690,670 L334,670 C304,670 280,650 280,620 Z"/>
+        
+    <!-- Glasses Glint/Reflection -->
+    <path
+        android:fillColor="#4FC3F7"
+        android:pathData="M320,530 L704,530 L704,560 L320,560 Z"/>
+        
+    <!-- Mouth/Smile -->
+    <path
+        android:fillColor="#5D4037"
+        android:pathData="M412,800 Q512,880 612,800"
+        android:strokeWidth="15"
+        android:strokeColor="#5D4037"
+        android:strokeLineCap="round"/>
+
+</vector>

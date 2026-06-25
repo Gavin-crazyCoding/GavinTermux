@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GavinFloat 原始命名 -->
+    <color name="bg_dark">#2b2b2b</color>
+    <color name="card_bg">#55000000</color>
+    <color name="text_white">#ffffff</color>
+    <color name="text_blue">#48baf3</color>
+    <color name="divider">#0A868686</color>
+    <color name="status_ok">#4CAF50</color>
+    <color name="status_warn">#FFC107</color>
+    <color name="status_err">#F44336</color>
+    <color name="btn_ok">#4CAF50</color>
+    <color name="btn_cancel">#757575</color>
+
+    <!-- ZeroTermux 命名别名（方便对齐 ZT 更新） -->
+    <color name="color_ffffff">#FFFFFF</color>
+    <color name="color_FFFFFF">#FFFFFF</color>
+    <color name="color_2b2b2b">#2b2b2b</color>
+    <color name="color_55000000">#55000000</color>
+    <color name="color_48baf3">#48baf3</color>
+    <color name="color0A868686">#0A868686</color>
+    <color name="color_161823">#161823</color>
+    <color name="color_10202f">#10202f</color>
+    <color name="color_CC5A6B">#CC5A6B</color>
+    <!-- 玻璃质感 -->
+    <color name="glass_bg">#BB1A1A2E</color>
+    <color name="glass_card">#33FFFFFF</color>
+    <color name="glass_header">#22FFFFFF</color>
+    <!-- 奢华配色 -->
+    <color name="premium_gold">#D4AF37</color>
+    <color name="premium_gold_light">#F0D060</color>
+    <color name="premium_navy">#0A1628</color>
+    <color name="premium_purple">#150734</color>
+    <color name="premium_card">#18FFFFFF</color>
+    <color name="premium_border">#30D4AF37</color>
+</resources>

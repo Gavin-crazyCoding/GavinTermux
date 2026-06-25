@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+
+    <!-- ====== 1. 常用功能 ====== -->
+    <group name="常用功能" id="0">
+        <item name="切换源" click="commands:清华源@@ztShell:sed -i s@packages.termux.org@mirrors.tuna.tsinghua.edu.cn/termux@ $PREFIX/etc/apt/sources.list,北京源@@ztShell:sed -i s@packages.termux.org@mirrors.bfsu.edu.cn/termux@ $PREFIX/etc/apt/sources.list,官方源@@ztShell:pkg update -y" listTitle="选择镜像源"/>
+        <item name="容器切换" click="shell_output:ls ~/.termux/container 2>/dev/null || echo 无容器目录" autoRunShell="true"/>
+        <item name="备份恢复" click="commands:备份Home@@ztShell:cd ~ &amp;&amp; tar czf backup_$(date +%Y%m%d).tar.gz . 2>&amp;1,查看备份@@shell_output:ls -lh ~/backup_*.tar.gz 2>/dev/null" listTitle="备份恢复"/>
+        <item name="发行版Linux" click="shell_output:ls ~/termux-install-linux* 2>/dev/null || echo 未安装" autoRunShell="true"/>
+        <item name="QEMU" click="shell_output:which qemu-system-x86_64 2>/dev/null || echo QEMU未安装" autoRunShell="true"/>
+        <item name="定时任务" click="commands:编辑crontab@@editor:/data/data/com.termux/files/home/.termux/crontab,查看crontab@@shell_output:crontab -l 2>/dev/null,安装cronie@@ztShell:pkg install -y cronie" listTitle="定时任务"/>
+        <item name="包管理器" click="internal:pkg_manager"/>
+        <item name="进程管理" click="internal:process_manager"/>
+        <item name="网络工具" click="internal:network_tools"/>
+        <item name="快捷命令" click="internal:quick_commands"/>
+        <item name="ADB管理器" click="internal:adb_manager"/>
+        <item name="AI助手" click="internal:ai_chat"/>
+        <item name="Gavin设置" click="internal:settings"/>
+    </group>
+
+    <!-- ====== 2. 创建项目 ====== -->
+    <group name="创建项目" id="8">
+        <item name="新建C项目" click="internal:create_c_project"/>
+        <item name="新建Java项目" click="internal:create_java_project"/>
+        <item name="新建Python项目" click="internal:create_python_project"/>
+        <item name="新建PHP项目" click="internal:create_php_project"/>
+        <item name="新建NPM项目" click="internal:create_npm_project"/>
+        <item name="打开项目" click="filebrowser:/data/data/com.termux/files/home/projects"/>
+    </group>
+
+    <!-- ====== 3. X11功能 ====== -->
+    <group name="X11功能" id="1">
+        <item name="X11设置" click="editor:/data/data/com.termux/files/home/.termux/x11.properties"/>
+        <item name="显示终端" click="input:执行命令@@输入要发送的命令@@{}" autoRunShell="true"/>
+        <item name="隐藏终端" click="ztShell:pkill Xvnc 2>/dev/null; pkill Xwayland 2>/dev/null; echo OK" autoRunShell="true"/>
+        <item name="X11环境" click="shell_output:pkg list-installed 2>/dev/null | grep x11 || echo 无X11包" autoRunShell="true"/>
+        <item name="修复环境" click="ztShell:apt --fix-broken install -y" autoRunShell="true" dialogConfirm="true" dialogTitle="修复X11" dialogMessage="是否修复X11环境？"/>
+        <item name="安装X11" click="commands:安装X11工具@@ztShell:pkg install -y x11-repo xterm,打开项目页@@jumpUrl:https://github.com/termux/termux-x11" listTitle="安装X11"/>
+        <item name="显示键盘" click="ztShell:echo show-extra-keys > ~/.termux/termux.properties" autoRunShell="true"/>
+        <item name="隐藏键盘" click="ztShell:echo hide-extra-keys > ~/.termux/termux.properties" autoRunShell="true"/>
+        <item name="VNC" click="commands:启动VNC@@ztShell:vncserver -geometry 1280x720 :1,停止VNC@@ztShell:vncserver -kill :1,安装VNC@@ztShell:pkg install -y tigervnc" listTitle="VNC操作"/>
+    </group>
+
+    <!-- ====== 4. 美化功能 ====== -->
+    <group name="美化功能" id="2">
+        <item name="悬浮窗口" click="internal:settings"/>
+        <item name="美化设置" click="internal:settings"/>
+        <item name="字体设置" click="internal:settings"/>
+        <item name="全屏模式" click="internal:settings"/>
+        <item name="雪花特效" click="internal:settings"/>
+        <item name="网页数据" click="jumpUrl:https://wiki.zerotermux.dev"/>
+        <item name="粒子特效" click="internal:settings"/>
+        <item name="清除样式" click="internal:settings"/>
+    </group>
+
+    <!-- ====== 5. 引擎 ====== -->
+    <group name="引擎" id="6">
+        <item name="密钥数据" click="filebrowser:/data/data/com.termux/files/home/.ssh"/>
+        <item name="文件浏览" click="filebrowser:/data/data/com.termux/files/home"/>
+        <item name="X86 Alpine" click="ztShell:pkg install -y proot wget &amp;&amp; echo 请使用proot-distro" autoRunShell="true" dialogConfirm="true" dialogTitle="X86 Alpine" dialogMessage="将安装proot和wget，是否继续？"/>
+    </group>
+
+    <!-- ====== 6. ROOT/ADB ====== -->
+    <group name="ROOT/ADB" id="5">
+        <item name="开启网络ADB" click="ztShell:su -c setprop service.adb.tcp.port 5555" autoRunShell="true" dialogConfirm="true" dialogTitle="警告" dialogMessage="需要root权限，开启网络ADB(5555)？"/>
+        <item name="关闭网络ADB" click="ztShell:su -c setprop service.adb.tcp.port -1" autoRunShell="true" dialogConfirm="true" dialogTitle="确认" dialogMessage="关闭网络ADB？"/>
+        <item name="ADB连接设备" click="input:ADB连接@@输入IP:端口@@ztShell:adb connect {}"/>
+        <item name="ADB设备列表" click="shell_output:adb devices 2>/dev/null || echo adb未安装" autoRunShell="true"/>
+        <item name="ADB Shell" click="input:ADB Shell@@输入命令@@ztShell:adb shell {}"/>
+        <item name="Docker检查" click="shell_output:su -c docker ps -a 2>/dev/null || echo Docker未安装" autoRunShell="true"/>
+    </group>
+
+    <!-- ====== 7. Kali Nethunter (id=10) ====== -->
+    <group name="Kali Nethunter" id="10">
+        <item name="安装/重装" click="ztShell:cp $PREFIX/../assets/kali/kali.sh ~/kali.sh 2>/dev/null; cd ~ &amp;&amp; chmod +x kali.sh &amp;&amp; bash kali.sh" autoRunShell="true" dialogConfirm="true" dialogTitle="安装Kali" dialogMessage="将下载安装Kali Nethunter(约2GB)，需要稳定网络。继续？"/>
+        <item name="Kali安装状态" click="shell_output:if [ -d ~/kali-arm64 ]; then echo Kali已安装; du -sh ~/kali-arm64 2>/dev/null | head -1; echo ---; ls ~/kali-arm64/ 2>/dev/null | head -5; else echo Kali未安装，请使用 安装/重装; fi" autoRunShell="true"/>
+        <item name="启动终端" click="ztShell:nethunter" autoRunShell="true"/>
+        <item name="Root终端" click="ztShell:nethunter -r" autoRunShell="true"/>
+        <item name="启动桌面" click="ztShell:nethunter kex &amp;&amp; echo 按回车关闭" autoRunShell="true" dialogConfirm="true" dialogTitle="启动KeX桌面" dialogMessage="需要先设置密码。是否启动？"/>
+        <item name="停止桌面" click="ztShell:nethunter kex stop" autoRunShell="true"/>
+        <item name="设置密码" click="ztShell:nethunter kex passwd" autoRunShell="true"/>
+        <item name="启动SSH" click="ztShell:nethunter -r service ssh start &amp;&amp; echo SSH已启动:2222 用户:root 密码:toor" autoRunShell="true"/>
+        <item name="停止SSH" click="ztShell:nethunter -r service ssh stop" autoRunShell="true"/>
+        <item name="安装工具集" click="ztShell:nethunter -r apt install kali-linux-default -y" autoRunShell="true" dialogConfirm="true" dialogTitle="安装工具集" dialogMessage="将安装kali-linux-default完整工具包(约10GB)，是否继续？"/>
+
+        <!-- Kali换源 — 对齐 Termux X 的4源弹窗 -->
+        <item name="Kali换源" click="commands:Kali官方源@@ztShell:echo deb http://http.kali.org/kali kali-rolling main non-free contrib > ~/kali-arm64/etc/apt/sources.list,Kali清华源@@ztShell:echo deb https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main non-free contrib > ~/kali-arm64/etc/apt/sources.list,Kali中科大源@@ztShell:echo deb https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib > ~/kali-arm64/etc/apt/sources.list,Kali阿里云源@@ztShell:echo deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib > ~/kali-arm64/etc/apt/sources.list" listTitle="Kali换源"/>
+
+        <!-- 常用Kali工具 — 13类工具浏览器 -->
+        <item name="常用Kali工具" click="internal:kali_tools"/>
+        <item name="WiFi工具集" click="internal:wifi_tools"/>
+
+        <!-- 渗透测试工具GUI — 对齐 Termux X pentest_* 按钮 -->
+        <item name="Nmap" click="internal:nmap"/>
+        <item name="Dirb" click="internal:dirb"/>
+        <item name="Metasploit" click="internal:metasploit"/>
+        <item name="Sqlmap" click="internal:sqlmap"/>
+        <item name="Seeker" click="internal:seeker"/>
+        <item name="CamPhish" click="internal:camphish"/>
+
+        <!-- Kali工具快捷集 -->
+        <item name="Kali工具快捷集" click="commands:信息收集@@internal:nmap,Payload生成@@internal:metasploit,SQL注入@@internal:sqlmap,目录扫描@@internal:dirb,钓鱼页面@@internal:seeker,摄像头@@internal:camphish,漏洞扫描@@ztShell:nethunter -r nikto,密码破解@@ztShell:nethunter -r hydra -h,渗透控制台@@ztShell:nethunter -r msfconsole,流量分析@@ztShell:nethunter -r wireshark" listTitle="Kali工具快捷集"/>
+    </group>
+
+    <!-- ====== 8. 线上功能 ====== -->
+    <group name="线上功能" id="3">
+        <item name="在线脚本" click="internal:online_scripts"/>
+        <item name="Zero论坛" click="jumpUrl:https://github.com/ZeroTermux-China/ZeroTermux/discussions"/>
+        <item name="下载中心" click="internal:download_center"/>
+        <item name="公共仓库" click="jumpUrl:https://github.com/Gavin-CrazyCoding?tab=repositories"/>
+    </group>
+
+    <!-- ====== 9. 配置终端 ====== -->
+    <group name="配置终端" id="7">
+        <item name="Shell运行" click="input:执行Shell命令@@输入命令@@{}" autoRunShell="true"/>
+        <item name="底部键盘" click="editor:/data/data/com.termux/files/home/.termux/termux.properties"/>
+        <item name="默认bashrc" click="ztShell:cp $PREFIX/etc/bash.bashrc.defaults $PREFIX/etc/bash.bashrc 2>/dev/null || echo 失败" autoRunShell="true" dialogConfirm="true" dialogTitle="恢复默认" dialogMessage="用默认bashrc覆盖？"/>
+        <item name="编辑bashrc" click="commands:bash.bashrc@@editor:/data/data/com.termux/files/usr/etc/bash.bashrc,.bashrc@@editor:/data/data/com.termux/files/home/.bashrc" listTitle="选择文件"/>
+        <item name="欢迎信息" click="editor:/data/data/com.termux/files/usr/etc/motd"/>
+        <item name="命令定义" click="editor:/data/data/com.termux/files/home/.bash_aliases"/>
+        <item name="开机命令" click="commands:编辑脚本@@editor:/data/data/com.termux/files/home/.termux/boot/start.sh,创建脚本@@ztShell:mkdir -p ~/.termux/boot" listTitle="开机命令"/>
+    </group>
+
+    <!-- ====== 10. ZT功能 ====== -->
+    <group name="ZT功能" id="4">
+        <item name="安装模块" click="commands:curl@@ztShell:pkg install -y curl,git@@ztShell:pkg install -y git,vim@@ztShell:pkg install -y vim,python@@ztShell:pkg install -y python,nodejs@@ztShell:pkg install -y nodejs,clang@@ztShell:pkg install -y clang" listTitle="选择模块"/>
+        <item name="FTP服务" click="commands:启动FTP@@ztShell:pure-ftpd -B -S 2121,停止FTP@@ztShell:pkill pure-ftpd,安装FTP@@ztShell:pkg install -y pure-ftpd" listTitle="FTP操作"/>
+        <item name="常用软链" click="shell_output:ls -la ~/storage/ 2>/dev/null || echo 运行termux-setup-storage" autoRunShell="true"/>
+        <item name="我的软链" click="shell_output:find ~/ -maxdepth 2 -type l 2>/dev/null" autoRunShell="true"/>
+        <item name="卸载模块" click="input:卸载模块@@输入包名@@ztShell:pkg uninstall -y {}" dialogConfirm="true" dialogTitle="确认卸载" dialogMessage="将执行pkg uninstall"/>
+        <item name="远程连接" click="commands:启动SSH@@ztShell:sshd,停止SSH@@ztShell:pkill sshd,安装SSH@@ztShell:pkg install -y openssh" listTitle="远程连接"/>
+        <item name="网页数据" click="jumpUrl:https://wiki.zerotermux.dev"/>
+        <item name="数据信息" click="commands:磁盘使用@@shell_output:df -h,内存@@shell_output:free -h,CPU@@shell_output:cat /proc/cpuinfo | head -10,IP@@shell_output:ip addr show | grep inet,完整系统@@shell_output:uname -a" listTitle="数据信息"/>
+        <item name="语言设置" click="commands:中文@@internal:language,English@@internal:language" listTitle="语言"/>
+        <item name="开源地址" click="jumpUrl:https://github.com/Gavin-CrazyCoding/"/>
+    </group>
+
+    <!-- ====== 11. 系统工具 ====== -->
+    <group name="系统工具" id="9">
+        <item name="更新软件包" click="ztShell:pkg update -y" autoRunShell="true" dialogConfirm="true" dialogTitle="确认" dialogMessage="更新软件包列表？"/>
+        <item name="升级全部" click="ztShell:pkg upgrade -y" autoRunShell="true" dialogConfirm="true" dialogTitle="确认" dialogMessage="升级所有包？"/>
+        <item name="清理缓存" click="ztShell:pkg autoclean -y" autoRunShell="true"/>
+        <item name="系统仪表盘" click="internal:sys_dashboard"/>
+        <item name="Git管理器" click="internal:git_manager"/>
+        <item name="查看进程" click="shell_output:ps aux | head -30" autoRunShell="true"/>
+        <item name="磁盘使用" click="shell_output:df -h" autoRunShell="true"/>
+        <item name="内存信息" click="shell_output:free -h 2>/dev/null || cat /proc/meminfo | head -5" autoRunShell="true"/>
+        <item name="系统信息" click="shell_output:uname -a" autoRunShell="true"/>
+        <item name="IP信息" click="shell_output:ip addr show 2>/dev/null | grep inet || ifconfig | grep inet" autoRunShell="true"/>
+        <item name="网络测试" click="shell_output:ping -c 4 baidu.com 2>&amp;1" autoRunShell="true"/>
+        <item name="环境变量" click="shell_output:env | sort | head -30" autoRunShell="true"/>
+        <item name="CPU信息" click="shell_output:cat /proc/cpuinfo | head -20" autoRunShell="true"/>
+    </group>
+
+</menu>

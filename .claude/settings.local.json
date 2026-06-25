@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xmllint --noout /home/kali/GavinFloat/app/src/main/assets/default_menu.xml)"
+    ]
+  }
+}
